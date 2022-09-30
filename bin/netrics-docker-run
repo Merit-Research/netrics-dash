@@ -71,7 +71,7 @@ fi
 
 sudo mkdir -p /var/run/netrics-dashboard
 
-if [ ! -f /var/run/netrics-dashboard/version ] || [ "$(</var/run/netrics-dashboard/version)" != 1.0.1 ]; then
+if [ ! -f /var/run/netrics-dashboard/version ] || [ "$(</var/run/netrics-dashboard/version)" != 1.0.2 ]; then
   TOPIC=$(</etc/nm-exp-active-netrics/nm-exp-active-netrics.toml \
           python3 -c "import sys, toml; sys.stdout.write(toml.load(sys.stdin).get('topic', ''))")
 
