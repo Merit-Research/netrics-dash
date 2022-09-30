@@ -93,7 +93,7 @@ if [ ! -f /var/run/netrics-dashboard/version ] || [ "$(</var/run/netrics-dashboa
     --read-only                                                                                  \
     --user $(id -u):$(id -g)                                                                     \
     --name netrics-dashboard                                                                     \
-    chicagocdac/netrics-dashboard:1.0.1
+    mkingmerit/netrics-dashboard:1.0.2
 
   sudo docker inspect                                     \
     --format="{{.Config.Labels.appversion}}"              \
@@ -116,7 +116,7 @@ docker run                                                                      
   --read-only                                                                            \
   --user $(id -u):$(id -g)                                                               \
   --name netrics-dashboard-command                                                       \
-  chicagocdac/netrics-dashboard:1.0.1                                             \
+  mkingmerit/netrics-dashboard:1.0.2                                             \
   python -m app.cmd "$@"
 SCRIPT
 
