@@ -71,7 +71,7 @@ fi
 
 sudo mkdir -p /var/run/netrics-dashboard
 
-if [ ! -f /var/run/netrics-dashboard/version ] || [ "$(</var/run/netrics-dashboard/version)" != 1.0.1 ]; then
+if [ ! -f /var/run/netrics-dashboard/version ] || [ "$(</var/run/netrics-dashboard/version)" != 1.0.2 ]; then
   TOPIC=$(</etc/nm-exp-active-netrics/nm-exp-active-netrics.toml \
           python3 -c "import sys, toml; sys.stdout.write(toml.load(sys.stdin).get('topic', ''))")
 
@@ -84,7 +84,7 @@ if [ ! -f /var/run/netrics-dashboard/version ] || [ "$(</var/run/netrics-dashboa
     --network=bridge                                                                             \
     --log-driver=local                                                                           \
     --publish 80:8080                                                                            \
-                                                                           \
+    --platform linux/arm64                                                                       \
                                                                          \
     --env DATAFILE_PENDING=/var/nm/nm-exp-active-netrics/upload/pending/${TOPIC:-default}/json/  \
     --env DATAFILE_ARCHIVE=/var/nm/nm-exp-active-netrics/upload/archive/${TOPIC:-default}/json/  \
@@ -93,7 +93,7 @@ if [ ! -f /var/run/netrics-dashboard/version ] || [ "$(</var/run/netrics-dashboa
     --read-only                                                                                  \
     --user $(id -u):$(id -g)                                                                     \
     --name netrics-dashboard                                                                     \
-    chicagocdac/netrics-dashboard:1.0.1
+    mkingmerit/netrics-dashboard:1.0.2
 
   sudo docker inspect                                     \
     --format="{{.Config.Labels.appversion}}"              \
@@ -110,13 +110,13 @@ cat <<'SCRIPT' | sudo tee /usr/local/bin/local-dashboard > /dev/null
 docker run                                                                               \
   --rm                                                                                   \
   --network=bridge                                                                       \
-                                                                 \
+  --platform linux/arm64                                                               \
   --volume /var/lib/netrics-dashboard:/var/lib/dashboard                                 \
   --volume /var/nm:/var/nm:rw                                                            \
   --read-only                                                                            \
   --user $(id -u):$(id -g)                                                               \
   --name netrics-dashboard-command                                                       \
-  chicagocdac/netrics-dashboard:1.0.1                                             \
+  mkingmerit/netrics-dashboard:1.0.2                                             \
   python -m app.cmd "$@"
 SCRIPT
 
